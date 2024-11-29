@@ -1,0 +1,22 @@
+<div id="linkedin-widget">
+    <h3>LinkedIn Outreach Tool</h3>
+    <form id="linkedinForm">
+        <label for="linkedinURL">Enter LinkedIn URL:</label>
+        <input type="text" id="linkedinURL" placeholder="https://www.linkedin.com/in/example" required>
+        <button type="submit">Generate Email</button>
+    </form>
+    <p id="response"></p>
+</div>
+<script>
+    document.getElementById("linkedinForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const url = document.getElementById("linkedinURL").value;
+        const response = await fetch("/api/generate_email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ linkedin_url: url }),
+        });
+        const result = await response.json();
+        document.getElementById("response").innerText = result.message;
+    });
+</script>
