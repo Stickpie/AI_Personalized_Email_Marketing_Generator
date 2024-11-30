@@ -1,0 +1,43 @@
+
+<!-- A basic forum for the user to enter a linkden profile-->
+<div id="linkedin-widget">
+    <h3>LinkedIn Outreach Tool</h3>
+    <form id="linkedinForm">
+        <label for="linkedinURL">Enter LinkedIn URL:</label>
+        <input type="text" id="linkedinURL" placeholder="https://www.linkedin.com/in/example" required>
+        <button type="submit">Generate Email</button>
+    </form>
+    <p id="response"></p>
+</div>
+
+<!--Script sends the linkden url to app.py, and waits for the response-->
+<script>
+    document.getElementById("linkedinForm").addEventListener("submit", async function (event) {
+    event.preventDefault(); //prevents page refresh
+    const url = document.getElementById("linkedinURL").value;
+
+    //try to send linkden url to backend
+    try {
+        const response = await fetch("http://127.0.0.1:5000/api/generate_email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ linkedin_url: url }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        if (result.error) {
+            throw new Error(result.error);
+        }
+
+        document.getElementById("response").innerText = JSON.stringify(result, null, 2); // Display the JSON response
+    } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("response").innerText = `Error: ${error.message}`;
+    }
+    });
+
+</script>
