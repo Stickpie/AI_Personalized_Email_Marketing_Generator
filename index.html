@@ -33,7 +33,7 @@
             throw new Error(result.error);
         }
 
-        document.getElementById("response").innerText = JSON.stringify(result, null, 2); // Display the JSON response
+        document.getElementById("response").innerText = result.person_data;
     } catch (error) {
         console.error("Error:", error);
         document.getElementById("response").innerText = `Error: ${error.message}`;
