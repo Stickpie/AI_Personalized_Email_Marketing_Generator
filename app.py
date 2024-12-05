@@ -34,8 +34,9 @@ def generate_email():
 
     #Trying to scrape
     person = Person(linkedin_link, driver=driver, scrape=False)
-    print(person)
-    return jsonify({"person_data": serialize_person(person)}), 200
+    returnVal = person.scrape()
+    print(returnVal)
+    return jsonify({"person_data": serialize_person(returnVal)}), 200
 
 
 
